@@ -9,6 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm ci
+      - run: npm run build
       - uses: ./src/flagsmith/aws_param
         with:
           FLAG_NAME: "test"
