@@ -23,6 +23,7 @@ async function main(): Promise<void> {
         const command = new PutParameterCommand({
             Name: flagName,
             Value: flag_value.toString(),
+            Type: "SecureString"
         })
         const response = await ssm.send(command);
         const versionNumber = response.Version;
