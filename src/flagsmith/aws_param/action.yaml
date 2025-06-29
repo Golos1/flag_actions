@@ -1,0 +1,18 @@
+name: flagsmith_aws_param
+author: Golos1
+description: Reads a feature flag from flagsmith and puts an AWS parameter with the same name and value in AWS Parameter store. 
+  As a matter of best practices, AWS credentials are fetched from the environment rather than supplied as arguments.
+inputs:
+  FLAG_NAME:
+    description: name of feature flag on flagsmith
+  FLAGSMITH_CLIENT_KEY:
+    description: flagsmith client key used to get the feature flag.
+outputs:
+  FLAG_VALUE:
+    description: value of the feature flag fetched from flagsmith. Will not be set if the flag doesn't exist or can't be retreived.
+  PARAM_VERSION:
+    description: version number obtained from AWS after setting the parameter. Will not be set
+      if AWS does not send back a version number for whatever reason.
+runs:
+  using: node20
+  main: index.ts
