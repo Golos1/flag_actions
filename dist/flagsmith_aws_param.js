@@ -67,6 +67,7 @@ function main() {
             const command = new client_ssm_1.PutParameterCommand({
                 Name: flagName,
                 Value: flag_value.toString(),
+                Type: "SecureString"
             });
             const response = yield ssm.send(command);
             const versionNumber = response.Version;
