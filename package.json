@@ -10,14 +10,10 @@
     "@actions/core": "^1.11.1",
     "@actions/http-client": "^2.2.3",
     "@aws-sdk/client-ssm": "^3.839.0",
-    "flagsmith": "^9.2.2"
+    "flagsmith-nodejs": "^6.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.5.3",
-    "@actions/core": "^1.11.1",
-    "@actions/http-client": "^2.2.3",
-    "@aws-sdk/client-ssm": "^3.839.0",
-    "flagsmith": "^9.2.2"
+    "typescript": "^5.5.3"
   },
   "private": true
 }

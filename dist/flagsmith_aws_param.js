@@ -41,13 +41,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const client_ssm_1 = require("@aws-sdk/client-ssm");
-const flagsmith_1 = __importDefault(require("flagsmith"));
+const flagsmith_nodejs_1 = require("flagsmith-nodejs");
 /**
  * If the flag value cannot be retreived then the action will fail
  * and the parameter on AWS won;t be set; however, if the version
@@ -55,33 +52,29 @@ const flagsmith_1 = __importDefault(require("flagsmith"));
  */
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield flagsmith_1.default.init({
-            environmentID: core.getInput("FLAGSMITH_CLIENT_KEY"),
+        const flagsmith = new flagsmith_nodejs_1.Flagsmith({
+            environmentKey: core.getInput("FLAGSMITH_ENV_KEY"),
         });
         const flagName = core.getInput("FLAG_NAME");
-        if (!flagsmith_1.default.hasFeature(flagName)) {
-            core.setFailed(flagName + " does not exist.");
+        const flags = yield flagsmith.getEnvironmentFlags();
+        const flag_value = flags.getFlag(flagName).value;
+        if (!flag_value) {
+            core.setFailed(flagName + " value does not exist.");
         }
         else {
-            const flag_value = flagsmith_1.default.getValue(flagName);
-            if (!flag_value) {
-                core.setFailed(flagName + " could not be retrieved from flagsmith.");
+            core.setOutput("FLAG_VALUE", flag_value);
+            const ssm = new client_ssm_1.SSMClient();
+            const command = new client_ssm_1.PutParameterCommand({
+                Name: flagName,
+                Value: flag_value.toString(),
+            });
+            const response = yield ssm.send(command);
+            const versionNumber = response.Version;
+            if (!versionNumber) {
+                console.log("No version number found.");
             }
             else {
-                core.setOutput("FLAG_VALUE", flag_value);
-                const ssm = new client_ssm_1.SSMClient();
-                const command = new client_ssm_1.PutParameterCommand({
-                    Name: flagName,
-                    Value: flag_value.toString(),
-                });
-                const response = yield ssm.send(command);
-                const versionNumber = response.Version;
-                if (!versionNumber) {
-                    console.log("No version number found.");
-                }
-                else {
-                    core.setOutput("PARAM_VERSION", versionNumber.toString());
-                }
+                core.setOutput("PARAM_VERSION", versionNumber.toString());
             }
         }
     });

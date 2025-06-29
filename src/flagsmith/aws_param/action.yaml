@@ -5,8 +5,8 @@ description: Reads a feature flag from flagsmith and puts an AWS parameter with 
 inputs:
   FLAG_NAME:
     description: name of feature flag on flagsmith
-  FLAGSMITH_CLIENT_KEY:
-    description: flagsmith client key used to get the feature flag.
+  FLAGSMITH_ENV_KEY:
+    description: flagsmith server-side environment key used to get the feature flag.
 outputs:
   FLAG_VALUE:
     description: value of the feature flag fetched from flagsmith. Will not be set if the flag doesn't exist or can't be retreived.
