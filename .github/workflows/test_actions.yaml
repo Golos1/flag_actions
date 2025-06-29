@@ -13,4 +13,4 @@ jobs:
       - uses: ./src/flagsmith/aws_param
         with:
           FLAG_NAME: "test"
-          FLAGSMITH_CLIENT_KEY: ${{Secrets.FLAGSMITH_CLIENT_KEY}}
+          FLAGSMITH_ENV_KEY: ${{Secrets.FLAGSMITH_ENV_KEY}}
