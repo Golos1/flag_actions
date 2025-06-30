@@ -15,4 +15,4 @@ outputs:
       if AWS does not send back a version number for whatever reason.
 runs:
   using: node20
-  main: ../../../dist/flagsmith_aws_param.js
+  main: ../../../dist/aws_param/flagsmith_aws_param.js

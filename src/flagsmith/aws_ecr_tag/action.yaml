@@ -1,0 +1,17 @@
+name: flagsmith_ecr_tag
+author: Golos1
+description: Reads a feature flag from flagsmith and tags an AWS ECR resource with the same name and value.
+inputs:
+  FLAG_NAME:
+    description: name of feature flag on flagsmith
+  FLAGSMITH_ENV_KEY:
+    description: flagsmith server-side environment key used to get the feature flag.
+  ARN:
+    description: ARN of the resource to tag.
+outputs:
+  FLAG_VALUE:
+    description: value of the feature flag fetched from flagsmith. Will not be set if the flag doesn't exist or can't be retreived.
+
+runs:
+  using: node20
+  main: ../../../dist/aws_ecr_tag/flagsmith_aws_ecr_tag.js
