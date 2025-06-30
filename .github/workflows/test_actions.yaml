@@ -3,14 +3,13 @@ on:
     branches:
       - '**'
 jobs:
-  test_flagsmith:
+  test_flagsmith_ssm:
     permissions:
       id-token: write
       contents: read
     runs-on: ubuntu-latest
     container: node:lts-bookworm
     steps:
-      - uses: actions/checkout@v4
       - run: npm ci
       - run: npm run build
       - uses: aws-actions/configure-aws-credentials@v4
@@ -21,6 +20,19 @@ jobs:
         with:
           FLAG_NAME: "test"
           FLAGSMITH_ENV_KEY: ${{Secrets.FLAGSMITH_ENV_KEY}}
+  test_flagsmith_ecr:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    container: node:lts-bookworm
+    steps:
+      - run: npm ci
+      - run: npm run build
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: 'us-east-2'
+          role-to-assume: ${{secrets.AWS_ROLE}}
       - uses: ./src/flagsmith/aws_ecr_tag
         with:
           ARN: ${{Secrets.ECR_ARN}}

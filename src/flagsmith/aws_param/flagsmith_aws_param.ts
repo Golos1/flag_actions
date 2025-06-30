@@ -20,7 +20,8 @@ async function main(): Promise<void> {
         const command = new PutParameterCommand({
             Name: flagName,
             Value: flag_value.toString(),
-            Type: "SecureString"
+            Type: "SecureString",
+            Overwrite: true,
         })
         const response = await ssm.send(command);
         if(!response.$metadata.httpStatusCode || response.$metadata.httpStatusCode >= 300){
