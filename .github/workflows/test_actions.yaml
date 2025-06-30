@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     container: node:lts-bookworm
     steps:
+      - run: npm install
       - run: npm ci
       - run: npm run build
       - uses: aws-actions/configure-aws-credentials@v4
@@ -27,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     container: node:lts-bookworm
     steps:
+      - run: npm install
       - run: npm ci
       - run: npm run build
       - uses: aws-actions/configure-aws-credentials@v4
