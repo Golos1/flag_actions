@@ -21,3 +21,8 @@ jobs:
         with:
           FLAG_NAME: "test"
           FLAGSMITH_ENV_KEY: ${{Secrets.FLAGSMITH_ENV_KEY}}
+      - uses: ./src/flagsmith/aws_ecr_tag
+        with:
+          ARN: ${{Secrets.ECR_ARN}}
+          FLAG_NAME: "test"
+          FLAGSMITH_ENV_KEY: ${{Secrets.FLAGSMITH_ENV_KEY}}
